@@ -1,0 +1,127 @@
+<!-- search_app/templates/search_app/search.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        /* Styles for the search container, form, input, and button (same as before) */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Adjust as needed */
+            margin-bottom: 20px; /* Adjust as needed */
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            border-radius: 20px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px); /* Glassmorphism effect */
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            width: 500px; /* Adjust as needed */
+            padding: 10px;
+            border-radius: 10px;
+            background-color: transparent;
+        }
+
+        .search-button {
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background-color: #3498db; /* Blue color */
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #2980b9; /* Darker blue color on hover */
+        }
+
+        /* Styles for the container that wraps the result table */
+        .result-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px; /* Adjust as needed */
+        }
+        /* Styles for the table */
+        table {
+            width: 60%; /* Set table width to 80% of the screen */
+            max-width: 100%; /* Ensure the table does not exceed 100% of the screen width */
+            border-collapse: collapse;
+            margin-bottom: 20px; /* Adjust as needed */
+        }
+
+        th, td {
+            padding: 12px; /* Increased padding for better readability */
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            font-size: 14px; /* Adjust font size as needed */
+            color: #333; /* Dark color for table header text */
+        }
+
+        td {
+            font-size: 14px; /* Adjust font size as needed */
+            color: #666; /* Medium color for table data text */
+        }
+
+        tbody tr:hover {
+            background-color: #f2f2f2; /* Light gray background on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Search container and form (same as before) -->
+    <div class="search-container">
+        <form class="search-form" method="get" action="{% url 'search' %}">
+            <input class="search-input" type="text" name="q" value="{{ query }}" placeholder="Search...">
+            <button class="search-button" type="submit">Search</button>
+        </form>
+    </div>
+
+    {% if query %}
+        <h2 style="text-align: center;">Results for '{{ query }}'</h2>
+        <!-- Wrap the table inside a container and center it -->
+        <div class="result-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title Name</th>
+                        <th>Type</th>
+                        <th>Genre</th>
+                        <th>Released</th>
+                        <th>Synopsis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.title }}</td>
+                        <td>{{ result.type|title }}</td>
+                        <td>{{ result.genre|join:", " }}</td>
+                        <td>{{ result.released }}</td>
+                        <td>{{ result.synopsis }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</body>
+</html>
